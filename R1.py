@@ -3,6 +3,8 @@ import scipy.signal as signal
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
 
+# GROUP 4
+
 # Define the sampling frequency as 8000 samples per second.
 Fs = 8000
 

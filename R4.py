@@ -135,3 +135,55 @@ plt.show()
 # By comparing the two spectra, it is visually clear that the noise floor has been completely flattened to zero.
 # The only remaining components in the filtered spectrum are the two sharp peaks corresponding to the original sine waves.
 # The frequency-domain thresholding successfully isolated the exact frequencies of interest from the broadband noise.
+
+# The inverse Fast Fourier Transform (IFFT) is applied to the filtered spectrum to return to the time domain.
+filtered_signal_time = np.fft.ifft(filtered_spectrum)
+
+# Only the real part of the result is kept, as the original signal consists of real-valued sinusoidal data.
+# Any tiny imaginary components resulting from numerical precision errors during the FFT/IFFT process are discarded.
+filtered_signal_time = filtered_signal_time.real
+
+# Plot the data.
+plt.figure(figsize=(12, 6))
+plt.plot(signal_data, label='Original Noisy Signal', alpha=0.4, color='gray')
+plt.plot(filtered_signal_time, label='Filtered Signal (FFT Thresholding)', color='blue', linewidth=2)
+plt.ylabel('Amplitude')
+plt.xlabel('Sample Index')
+plt.title('Time-Domain Comparison: Original vs. Filtered Signal')
+plt.legend()
+plt.show()
+
+# R4.d) Comment on what is observed.
+# The resulting plot shows a significant reduction in the signal's variance.
+# While the original signal was heavily obscured by random fluctuations, the filtered signal clearly displays a clean, periodic waveform.
+# This waveform is the superposition of the two sinusoids identified in the frequency domain.
+# The filtering process successfully removed the additive Gaussian white noise while preserving the underlying structure of the two sine waves.
+
+# A moving-average filter is implemented by defining a window of size M.
+m_values = [5, 11, 21, 51]
+
+# Plot the data.
+plt.figure(figsize=(12, 8))
+plt.plot(signal_data, label='Original Noisy Signal', alpha=0.2, color='gray')
+plt.plot(filtered_signal_time, label='FFT Thresholding (Ideal)', color='black', linewidth=2)
+
+# A loop iterates through each M value to apply the filter and plot the result.
+for m in m_values:
+    window_loop = np.ones(m) / m
+    ma_result = np.convolve(signal_data, window_loop, mode='same')
+    plt.plot(ma_result, label=f'Moving Average (M={m})', alpha=0.8)
+
+# Appropriate labels, a legend, and a title are added to the plot.
+plt.ylabel('Amplitude')
+plt.xlabel('Sample Index')
+plt.title('Moving Average Comparison: Varying Window Size M')
+plt.legend(loc='upper right')
+plt.show()
+
+# R4.e) Compare the results obtained with the frequency domain and time domain filters.
+# It is observed that the frequency-domain thresholding provides a much cleaner reconstruction of the original sinusoids.
+# Because the noise is white and spread across all frequencies, zeroing out the frequency bins outside the signal peaks removes the noise entirely without affecting the sinusoids.
+# In contrast, the moving-average filter acts as a low-pass filter in the time domain.
+# While it succeeds in reducing the high-frequency noise, it also attenuates the amplitude of the signal components and introduces a phase lag or edge effects.
+# Additionally, some noise remains present in the moving-average result because the filter's stopband is not perfectly sharp.
+# Therefore, for signals consisting of pure sinusoids corrupted by noise, filtering directly in the frequency domain is shown to be significantly more effective than a simple running average.

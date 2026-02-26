@@ -68,3 +68,6 @@ plt.show()
 # R1.c) Comment on the relationship between the spectrogram and the sound heard.
 # By looking at the spectrogram, one can visually track a distinct curve that bends upwards toward higher frequencies.
 # This upward visual curve perfectly matches the increasingly high-pitched sweeping sound that is heard when one playes the audio.
+
+# Because the sampling frequency is 8000Hz and maximum signal frequency is 1000 * 2^2 = 4kHz <= 8/2kHz = 4kHz, there is no aliasing in this case.
+# The Nyquist frequency is 4kHz * 2 = 8kHz (take the derivative of the cosine argument).

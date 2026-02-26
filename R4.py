@@ -180,6 +180,8 @@ plt.title('Moving Average Comparison: Varying Window Size M')
 plt.legend(loc='upper right')
 plt.show()
 
+# TODO: Implement the moving average filter in the frequency domain!
+
 # R4.e) Compare the results obtained with the frequency domain and time domain filters.
 # It is observed that the frequency-domain thresholding provides a much cleaner reconstruction of the original sinusoids.
 # Because the noise is white and spread across all frequencies, zeroing out the frequency bins outside the signal peaks removes the noise entirely without affecting the sinusoids.
